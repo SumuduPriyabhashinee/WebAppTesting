@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
 
 import './AddPost.css';
 import PostService from '../../services/post.service';
+import './texteditor.js';
+//import EditorJS from '@editorjs/editorjs';
 
 const AddPost = () => {
 
@@ -21,7 +25,7 @@ const AddPost = () => {
         });
     }
 
-    const handleCommentType = (event) => {
+    const handlePostType = (event) => {
         setstate({
             ...state,
             type: event.target.value
@@ -56,7 +60,7 @@ const AddPost = () => {
             console.log(`Post Heading - ${state.heading} \nPost Type - ${state.type} \nPost Content - ${state.content} `);
 
             //----- unComment this section update data in the db--------------
-                postService.addPost({heading: state.heading, content: state.content});
+                //postService.addPost({heading: state.heading, content: state.content});
             //----------------------------------------------------
 
             setstate({
@@ -78,7 +82,7 @@ const AddPost = () => {
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Category</Form.Label>
-                <Form.Control as="select" onChange={handleCommentType}>
+                <Form.Control as="select" onChange={handlePostType}>
                     <option value="">--Choose A Category--</option>
                     <option value="Health">Health</option>
                     <option value="Technology">Technology</option>
@@ -89,12 +93,27 @@ const AddPost = () => {
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Post Content</Form.Label>
-                <Form.Control as="textarea" rows="3" onChange={handleContent} />
+
+
+                <div id="editorjs"></div>
+
+
             </Form.Group>
             {state.msg !== "" ? <div><span className="errorMSG">{state.msg}</span><hr /></div> : ""}
+
+            <ButtonToolbar>
+            <div className="btnContainer">
             <Button
                 type="submit"
-                variant="secondary">Submit</Button>
+                variant="secondary">Save As Draft</Button>
+            </div>
+            <div className="btnContainer">
+            <Button
+                 type="submit"
+                 variant="secondary">Submit</Button>
+            </div>
+            </ButtonToolbar>
+
         </Form>
     );
 }
